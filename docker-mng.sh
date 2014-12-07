@@ -3,11 +3,15 @@
 NAME=consul-example
 
 function dockers_up {
+  # check proc
+  if [ -e ${NAME}.proc ]; then
+    echo "Exist ${NAME}.proc. ${NAME} are maybe running. Please 'sudo ./docker-mng.sh stop'."
+    exit 1
+  fi
 
   # remove old image
   echo 'docker rm consulboot'
   docker rm -f consulboot
-  rm ${NAME}.proc
 
   # run consul
   echo "start consul"
@@ -22,13 +26,14 @@ function dockers_up {
 
   # run tinyweb
   echo "start tinyweb"
-  docker run -d --link=consulboot:consulboot koduki/consul-client >> ${NAME}.proc
+  docker run -d --link=consulboot:consulboot koduki/tinyweb >> ${NAME}.proc
   echo "booted tinyweb"
 }
 
 function dockers_stop {
   echo 'stop docker'
   cat ${NAME}.proc|xargs docker stop
+  rm ${NAME}.proc
   echo 'finish'
 }
 
