@@ -33,13 +33,5 @@ Prepare
 
 ```[bash]
 docker pull progrium/consul
-docker pull koduki/consul-client
-```
-
-
-Build image
------------------------
-
-```[bash]
-docker build -t koduki/consul-client .
+docker pull koduki/tinyweb
 ```
